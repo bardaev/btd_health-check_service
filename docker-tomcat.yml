@@ -1,0 +1,62 @@
+---
+- name: Run Tomcat inside Docker
+  hosts: nxaws
+  become: true
+  tasks:
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+    - name: Create group
+      group:
+        name: docker
+        state: present
+        system: true
+
+    - name: Create user
+      user:
+        name: psapp
+        shell: /bin/bash
+        password: 1
+        group: docker
+
+    - name: Run service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Docker login
+      shell: 'docker login docker.com -u {{ user }} -p {{ pass }}'
+
+    - name: See running containers
+      shell: docker ps --filter name=tomcat -q
+      register: run_list
+
+    - name: See all containers
+      shell: docker ps --filter name=tomcat -aq
+      register: stop_list
+
+    - set_fact:
+        diff: '{{ (stop_list.stdout_lines | difference(run_list.stdout_lines)) | length }}'
+        run: '{{ run_list.stdout_lines | length }}'
+
+    - name: Remove previous containers
+      shell: docker stop tomcat && docker rm tomcat
+      when: diff | int != 0
+
+    - name: Run Tomcat container
+      shell: 'docker run -d -p 8080:8080 danpil/nxbootcamp:{{ version }}'
+      when: diff | int != 0 or run | int == 0
