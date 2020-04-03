@@ -56,6 +56,7 @@
   </distributionManagement>
 
   <build>
+    <finalName>HealthApp</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
@@ -112,7 +113,7 @@
           <configuration>
             <dockerfile>Dockerfile</dockerfile>
             <username>bardaev</username>
-            <password>-----</password>
+            <password>-------</password>
             <repository>danpil/nxbootcamp</repository>
             <tag>${project.version}</tag>
           </configuration>
