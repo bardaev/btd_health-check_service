@@ -113,7 +113,7 @@
           <configuration>
             <dockerfile>Dockerfile</dockerfile>
             <username>bardaev</username>
-            <password>--------</password>
+            <password>sEgVSyp76</password>
             <repository>danpil/nxbootcamp</repository>
             <tag>${project.version}</tag>
           </configuration>
