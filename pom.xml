@@ -44,15 +44,10 @@
 
   <distributionManagement>
     <repository>
-      <id>release</id>
-      <name>Internal Releases</name>
-      <url>file:///home/null/dep</url>
+      <id>myservice</id>
+      <name>HealthApp</name>
+      <url>file://qwe</url>
     </repository>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>Internal Snapshots</name>
-      <url>file:///home/null/dep</url>
-    </snapshotRepository>
   </distributionManagement>
 
   <build>
