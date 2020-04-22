@@ -25,7 +25,7 @@
         state: present
         system: true
 
-    - name: Create user psapp
+    - name: Create user
       user:
         name: psapp
         shell: /bin/bash
